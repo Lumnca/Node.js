@@ -547,3 +547,32 @@ _proto_使得定义继承链变得更加容易：
 比如，为Date对象定义一个称为ago的属性，返回以自然语言描述的日期间隔。很多时候，特别是在软件中，想要用自然语言来描述日期距离某个特定时间点的时间间隔。比如，“某件事情发生在三秒钟前”这种表达，远要比“某件事情发生在x年×月×日”这种表达更容易理解。
 下面的例子，为所有的Date实例都添加了ago获取器，它会返回以自然语言描述的日期距离现在的时间间隔。简单地访问该属性就会调用事先定义好的函数，无须显式调用。
 
+
+```js
+    Date.prototype.__defineGetter__('ago',function(){
+        var diff=(((new Date()).getTime()-this.getTime())/1000);
+        var day_diff=Math.floor(diff/86400); 
+        
+        return day_diff==0 && (diff<60&&"just now"||diff<120&&"1minute ago" ||
+        diff<3600&& Math.floor(diff/60)+"minutes ago" 
+        || diff<7200&&"1 hour ago"
+        || diff<86400 && Math. floor(diff/3600)+"hours ago") 
+        || day_diff==1&&"Yesterday?"
+        || day_diff<7 && day_diff+"days ago"
+        ||  Math.ceil(day_diff/7)+"weeks ago";  
+    });
+    
+    
+    var y = new Date("2019/9/12")
+    y.ago //"29weeks ago"
+    var y = new Date("2020/3/28 8:00:00")
+    y.ago //"4hours ago"
+```
+
+理解掌握本章的内容对了解语言本身的不足以及大多数糟糕的JavaScript运行环境，如老版本的浏览器，至关重要。
+
+由于JavaScript多年来自身发展缓慢且多少有种被人忽略的感觉，许多开发者投入了大量的时间来开发相应的技术以书写出更高效、可维护的JavaScript代码，同时也总结出了JavaScript一些诡异的工作方式。
+
+V8做了一件很酷的事情，它始终坚定不移地实现最新版本的ECMA标准。Node.js的核心团队也是如此，只要你安装的是最新版本的Node，你总能使用到最新版本的V8。它开启了服务器端开发的新篇章，我们可以使用它提供的更易理解且执行效率更高的API。
+
+
