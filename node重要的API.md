@@ -375,5 +375,5 @@ fs.readdir(process.cwd(), function (err, files) {
 ```
 
 
-
+![](https://github.com/Lumnca/Node.js/blob/master/img/a17.png)
 
